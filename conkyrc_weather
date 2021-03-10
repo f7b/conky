@@ -1,0 +1,69 @@
+conky.config = {
+
+
+    background = false,
+    no_buffers = true,
+    out_to_console = false,
+    top_cpu_separate = false,
+    max_port_monitor_connections = 256,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    total_run_times = 0,
+    update_interval = 2,
+
+    uppercase = false,
+    override_utf8_locale = true,
+    short_units = true,
+    pad_percents = 0,
+    text_buffer_size = 1024,
+    max_user_text = 16384,
+    use_xft = true,
+    xftalpha = 0.0,
+    font = 'DejaVu Sans Mono:bold:size=9.4',
+
+    own_window = true,
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    own_window_argb_visual = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+
+    double_buffer = true,
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_shades = false,
+    draw_outline = false,
+    stippled_borders = 0,
+
+    default_color = '#ffffff',
+    default_outline_color = '#ffffff',
+    default_shade_color = '#c0c0c0',
+    color0 = '#ff0000',
+    color1 = '#0f0f0f',
+    color2 = '#ffff00',
+    color3 = '#00ff00',
+    color4 = '#ffafaf',
+    color5 = '#ffc800',
+    color6 = '#ff00ff',
+    color7 = '#00ffff',
+    color8 = '#808080',
+    color9 = '#404040',
+
+    alignment = bottom_left,
+    gap_x = 2,
+    gap_y = 0,
+    maximum_width = 350,
+    use_spacer = 'none'
+};
+
+conky.text = [[
+${alignc}${color dark grey}Current weather:$color Prague
+${stippled_hr}
+${exec cat /tmp/weather | sed -n '1p' | cut -c 1-15} $alignr $color ${exec cat /tmp/weather | sed -n '1p' | cut -c 16-50 | xargs}
+${exec cat /tmp/weather | sed -n '2p' | cut -c 1-15} $alignr $color ${exec cat /tmp/weather | sed -n '2p' | cut -c 16-30 | xargs}
+${exec cat /tmp/weather | sed -n '3p' | cut -c 1-15} $alignr $color ${exec cat /tmp/weather | sed -n '3p' | cut -c 16-30 | xargs}
+${exec cat /tmp/weather | sed -n '4p' | cut -c 1-15} $alignr $color ${exec cat /tmp/weather | sed -n '4p' | cut -c 16-30 | xargs}
+${exec cat /tmp/weather | sed -n '5p' | cut -c 1-15} $alignr $color ${exec cat /tmp/weather | sed -n '5p' | cut -c 16-30 | xargs}
+${exec cat /tmp/weather | sed -n '6p' | cut -c 1-15} $alignr $color ${exec cat /tmp/weather | sed -n '6p' | cut -c 16-30 | xargs}
+${execpi 300 curl wttr.in/praha | sed -n '3,7p' | perl -pe 's/\e\[?.*?[\@-~]//g' > /tmp/weather}
+]]

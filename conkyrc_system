@@ -1,0 +1,103 @@
+conky.config = {
+
+background = false,
+no_buffers = true,
+out_to_console = false,
+top_cpu_separate = false,
+max_port_monitor_connections = 256,
+cpu_avg_samples = 4,
+net_avg_samples = 2,
+total_run_times = 0,
+update_interval = 2,
+
+uppercase = false,
+override_utf8_locale = true,
+short_units = true,
+pad_percents = 0,
+text_buffer_size = 4092,
+use_xft = true,
+xftalpha = 0.0,
+font = 'DejaVu Sans Mono:bold:size=9.4',
+
+own_window = true,
+own_window_transparent = true,
+own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+own_window_argb_visual = true,
+own_window_class = 'Conky',
+own_window_type = 'desktop',
+
+double_buffer = true,
+draw_borders = false,
+draw_graph_borders = false,
+draw_shades = false,
+draw_outline = false,
+draw_blended = true, forced_redraw = true,
+stippled_borders = 0,
+
+default_color = 'ffffff',
+default_outline_color = 'ffffff',
+default_shade_color = 'c0c0c0',
+color0 = 'ff0000',
+color1 = '0f0f0f',
+color2 = 'ffff00',
+color3 = '00ff00',
+color4 = 'ffafaf',
+color5 = 'ffc800',
+color6 = 'ff00ff',
+color7 = '00ffff',
+color8 = '808080',
+color9 = '404040',
+
+alignment = 'top_left',
+gap_x = 2,
+gap_y = 27,
+maximum_width = 350,
+minimum_height = 840,
+use_spacer = 'none',
+
+};
+
+conky.text = [[
+
+${execpi 60 DJS=`date +%_d`; cal | sed s/"\(^\|[^0-9]\)$DJS"'\b'/'\1${color red}'"$DJS"'$color'/|sed 's/^/${goto 22}/'}
+${font Free Mono:style=Bold:size=1}${stippled_hr}$font
+${color dark grey}OS/A:$color $sysname${color dark grey}|$color$machine$color
+${color dark grey}Dstr:$color ${execi 60 lsb_release -d | cut -f 2}
+${color dark grey}Uptm:$color $uptime
+${color dark grey}Mmry:$color $memmax${color dark grey}ttl$color${goto 124}$color$memeasyfree${color dark grey}free$color
+${color dark grey}CPU0:$color ${cpu cpu0}% ${goto 124}${color dark grey}CPU1:$color ${cpu cpu1}%
+${color dark grey}CPU2:$color ${cpu cpu2}% ${goto 124}${color dark grey}CPU3:$color ${cpu cpu3}%
+${color dark grey}CPU4:$color ${cpu cpu4}% ${goto 124}${color dark grey}CPU5:$color ${cpu cpu5}%
+${color dark grey}CPU6:$color ${cpu cpu6}% ${goto 124}${color dark grey}CPU7:$color ${cpu cpu7}%
+${color dark grey}TMP0:$color ${hwmon 0 temp 1}C ${goto 124}${color dark grey}TMP1:$color ${execpi 3 sensors | grep "Core 1" | awk '{print $3}' | cut -c2-3}C
+${color dark grey}TMP2:$color ${execpi 3 sensors | grep "Core 2" | awk '{print $3}' | cut -c2-3}C ${goto 124}${color dark grey}TMP3:$color ${execpi 3 sensors | grep "Core 3" | awk '{print $3}' | cut -c2-3}C
+${color dark grey}Batt:$color ${battery_percent}%${color dark grey}left$color
+${font Free Mono:style=Bold:size=1}${stippled_hr}$font
+${color dark grey}NIC:$color ${if_match "${execi 60 cat /sys/class/net/eth0/operstate | sed -e 's/up/true/' -e 's/down/false/'}"=="true"}eth0 ${color green}UP$color${else}eth0 ${color red}DOWN$color${endif}
+${color dark grey}ExtlIP:$color ${execi 900 curl --interface eth0 -s ifconfig.me}
+${alignc}${voffset 6}${upspeedgraph eth0 20,95 00ff00 ff0000 -t}${downspeedgraph eth0 20,95 00ff00 ff0000 -t}
+${color dark grey}UP:$color ${if_up eth0}${upspeed eth0}${endif}${alignr}${color dark grey}DL:$color ${if_up eth0}${downspeed eth0}${endif}
+${color dark grey}∑UP:$color ${if_up eth0}${totalup eth0}${endif}${alignr}${color dark grey}∑DL:$color ${if_up eth0}${totaldown eth0}${endif}
+${font Free Mono:style=Bold:size=7}${stippled_hr}$font
+${color dark grey}NIC:$color ${if_match "${execi 60 cat /sys/class/net/eth1/operstate | sed -e 's/up/true/' -e 's/down/false/'}"=="true"}eth1 ${color green}UP$color${else}eth1 ${color red}DOWN$color${endif}
+${color dark grey}ExtlIP:$color ${execi 900 curl --interface eth1 -s ifconfig.me}
+${alignc}${voffset 6}${upspeedgraph eth1 20,95 00ff00 ff0000 -t}${downspeedgraph eth1 20,95 00ff00 ff0000 -t}
+${color dark grey}UP:$color ${if_up eth1}${upspeed eth1}${endif}${alignr}${color dark grey}DL:$color ${if_up eth1}${downspeed eth1}${endif}
+${color dark grey}∑UP:$color ${if_up eth1}${totalup eth1}${endif}${alignr}${color dark grey}∑DL:$color ${if_up eth1}${totaldown eth1}${endif}
+${font Free Mono:style=Bold:size=7}${stippled_hr}$font
+${color dark grey}WiFi:$color ${if_match "${execi 60 cat /sys/class/net/wlan0/operstate | sed -e 's/up/true/' -e 's/down/false/'}"=="true"}wlan0 ${color green}UP$color${else}wlan0 ${color red}DOWN$color${endif} ${color dark grey}($color${wireless_link_qual wlan0}%${color dark grey})$color
+${color dark grey}ExtlIP:$color ${execi 900 curl --interface wlan0 -s ifconfig.me}
+${alignc}${voffset 6}${upspeedgraph wlan0 20,95 00ff00 ff0000 -t}${downspeedgraph wlan0 20,95 00ff00 ff0000 -t}
+${color dark grey}UP:$color ${if_up wlan0}${upspeed wlan0}${endif}${alignr}${color dark grey}DL:$color ${if_up wlan0}${downspeed wlan0}${endif}
+${color dark grey}∑UP:$color ${if_up wlan0}${totalup wlan0}${endif}${alignr}${color dark grey}∑DL:$color ${if_up wlan0}${totaldown wlan0}${endif}
+${font Free Mono:style=Bold:size=1}${stippled_hr}$font
+${alignc}/ ${color dark grey}($color${fs_size /}${color dark grey})$color
+${goto 6}${fs_bar 6,190 /}
+${fs_used_perc /}%${color dark grey}used$color ${alignr}${fs_free /}${color dark grey}free$color
+${alignc}/home ${color dark grey}($color${fs_size /home}${color dark grey})$color
+${goto 6}${fs_bar 6,190 /home}
+${fs_used_perc /home}%${color dark grey}used$color ${alignr}${fs_free /home}${color dark grey}free$color
+${alignc}/mnt/hdd ${color dark grey}($color${fs_size /mnt/hdd}${color dark grey})$color
+${goto 6}${fs_bar 6,190 /mnt/hdd/}
+${if_mounted /mnt/hdd}${fs_used_perc /mnt/hdd}%${color dark grey}used$color${endif}${alignr}${if_mounted /mnt/hdd}${fs_free /mnt/hdd}${color dark grey}free$color${endif}
+]]
